@@ -12,10 +12,11 @@ import {
   ListItemText,
   Divider,
   Button,
+  TextField,
 } from '@mui/material';
 
 const UserProfile = () => {
-  // Estados para armazenar os dados do perfil e as notificações
+  // Estados para armazenar os dados do perfil, notificações e imagem
   const [user, setUser] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [appsLinks, setAppsLinks] = useState([]);
@@ -53,6 +54,31 @@ const UserProfile = () => {
     fetchData();
   }, []);
 
+  const handleImageUpload = async (event) => {
+    const formData = new FormData();
+    formData.append('profileImage', event.target.files[0]);
+
+    try {
+      const response = await fetch('http://localhost:3000/users/profile-image', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+       
+      });
+      console.log(user.profileImage)
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(updatedUser); // Atualiza o usuário com a nova imagem
+      } else {
+        alert('Erro ao atualizar a imagem de perfil');
+      }
+    } catch (error) {
+      console.error('Erro no upload da imagem:', error);
+    }
+  };
+
   if (loading) {
     return <Typography variant="h6">Carregando...</Typography>;
   }
@@ -60,7 +86,7 @@ const UserProfile = () => {
   if (!user) {
     return <Typography variant="h6">Erro ao carregar os dados do usuário.</Typography>;
   }
-
+  
   return (
     <Box sx={{ padding: 4 }}>
       {/* Título da Página */}
@@ -77,7 +103,7 @@ const UserProfile = () => {
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar
               alt={user.name}
-              src={user.avatar || 'https://via.placeholder.com/80'} // Avatar do usuário
+              src={"http://localhost:3000/" + user.profileImage} // Avatar do usuário
               sx={{ width: 80, height: 80 }}
             />
             <Box>
@@ -98,6 +124,21 @@ const UserProfile = () => {
           </Stack>
         </CardContent>
       </Card>
+
+      {/* Upload de Imagem de Perfil */}
+      <Box>
+        <Typography variant="h6" fontWeight="600" gutterBottom>
+          Alterar Imagem de Perfil
+        </Typography>
+        <TextField
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          variant="outlined"
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+      </Box>
 
       {/* Notificações */}
       <Typography variant="h6" fontWeight="600" gutterBottom>
