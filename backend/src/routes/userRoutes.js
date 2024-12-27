@@ -124,11 +124,62 @@ const monthlyEarnings = {
   increase: 9,
   series: [25, 66, 20, 40, 12, 58, 20]
 }
+  // Exemplo de dados dinâmicos por mês
+  const salesData = {
+    '1': {
+        dates: ['01/03', '02/03', '03/03'],
+        earnings: [1000, 2000, 1500],
+        expenses: [500, 700, 400],
+    },
+    '2': {
+        dates: ['01/04', '02/04', '03/04'],
+        earnings: [1200, 1800, 1700],
+        expenses: [600, 800, 500],
+    },
+    '3': {
+        dates: ['01/05', '02/05', '03/05'],
+        earnings: [1300, 1900, 1600],
+        expenses: [700, 900, 600],
+    },
+};
 
-router.get('/api/breakup', (req, res) => {
-  res.json(breakup);
+const notifications = [
+  {
+    id: 1,
+    title: 'Nova mensagem',
+    subtitle: 'Você tem uma nova mensagem de Maria, responda-a!',
+    avatar: 'https://via.placeholder.com/40',
+  },
+  {
+    id: 2,
+    title: 'Atualização de sistema',
+    subtitle: 'O sistema foi atualizado com sucesso, aproveite as melhorias!',
+    avatar: 'https://via.placeholder.com/40',
+  },
+];
+
+const apps = [
+  {
+    id: 1,
+    title: 'Aplicativo de Tarefas',
+    subtext: 'Gerencie suas tarefas diárias, por favor.',
+    href: '/tasks-app',
+  },
+  {
+    id: 2,
+    title: 'Calendário',
+    subtext: 'Confira seus eventos aqui!',
+    href: '/calendar',
+  },
+];
+
+router.get('/api/apps', (req, res) => {
+  res.json(apps);
 });
 
+router.get('/api/notifications', (req, res) => {
+  res.json(notifications);
+});
 
 router.get('/api/breakup', (req, res) => {
   res.json(breakup);
@@ -142,26 +193,6 @@ router.get('/api/monthly-earnings', (req, res) => {
 // Exemplo de rota no Express
 router.get('/api/sales/:month', (req, res) => {
   const month = req.params.month;
-
-  // Exemplo de dados dinâmicos por mês
-  const salesData = {
-      '1': {
-          dates: ['01/03', '02/03', '03/03'],
-          earnings: [1000, 2000, 1500],
-          expenses: [500, 700, 400],
-      },
-      '2': {
-          dates: ['01/04', '02/04', '03/04'],
-          earnings: [1200, 1800, 1700],
-          expenses: [600, 800, 500],
-      },
-      '3': {
-          dates: ['01/05', '02/05', '03/05'],
-          earnings: [1300, 1900, 1600],
-          expenses: [700, 900, 600],
-      },
-  };
-
   res.json(salesData[month] || {}); // Retorna os dados para o mês
 });
 

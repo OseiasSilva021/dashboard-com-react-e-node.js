@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -15,45 +15,51 @@ import {
 } from '@mui/material';
 
 const UserProfile = () => {
-  // Dados simulados diretamente no componente
-  const notifications = [
-    {
-      title: 'Nova mensagem',
-      subtitle: 'Você tem uma nova mensagem de Maria.',
-      avatar: 'https://via.placeholder.com/40', // Imagem de exemplo
-    },
-    {
-      title: 'Atualização de sistema',
-      subtitle: 'O sistema foi atualizado com sucesso.',
-      avatar: 'https://via.placeholder.com/40',
-    },
-  ];
+  // Estados para armazenar os dados do perfil e as notificações
+  const [user, setUser] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [appsLinks, setAppsLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const profileLinks = [
-    {
-      title: 'Editar Informações',
-      subtitle: 'Atualize seus dados pessoais.',
-      href: '/edit-profile',
-    },
-    {
-      title: 'Configurações de Segurança',
-      subtitle: 'Altere sua senha e outras configurações.',
-      href: '/security-settings',
-    },
-  ];
+  useEffect(() => {
+    // Função para buscar dados do usuário e notificações
+    const fetchData = async () => {
+      try {
+        const userResponse = await fetch('http://localhost:3000/users/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Inclui o token de autenticação
+          },
+        });
+        if (!userResponse.ok) throw new Error('Erro ao buscar os dados do usuário');
+        const userData = await userResponse.json();
+        setUser(userData);
 
-  const appsLinks = [
-    {
-      title: 'Aplicativo de Tarefas',
-      subtext: 'Gerencie suas tarefas diárias.',
-      href: '/tasks-app',
-    },
-    {
-      title: 'Calendário',
-      subtext: 'Confira seus eventos.',
-      href: '/calendar',
-    },
-  ];
+        const notificationsResponse = await fetch('http://localhost:3000/api/notifications');
+        if (!notificationsResponse.ok) throw new Error('Erro ao buscar as notificações');
+        const notificationsData = await notificationsResponse.json();
+        setNotifications(notificationsData);
+
+        const appsResponse = await fetch('http://localhost:3000/api/apps');
+        if (!appsResponse.ok) throw new Error('Erro ao buscar os aplicativos');
+        const appsData = await appsResponse.json();
+        setAppsLinks(appsData);
+      } catch (error) {
+        console.error('Erro ao buscar os dados:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Typography variant="h6">Carregando...</Typography>;
+  }
+
+  if (!user) {
+    return <Typography variant="h6">Erro ao carregar os dados do usuário.</Typography>;
+  }
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -70,16 +76,16 @@ const UserProfile = () => {
         <CardContent>
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar
-              alt="User Avatar"
-              src="https://via.placeholder.com/80" // Imagem de exemplo
+              alt={user.name}
+              src={user.avatar || 'https://via.placeholder.com/80'} // Avatar do usuário
               sx={{ width: 80, height: 80 }}
             />
             <Box>
               <Typography variant="h5" fontWeight="600">
-                João da Silva {/* Nome do usuário */}
+                {user.name}
               </Typography>
               <Typography variant="subtitle2" color="textSecondary">
-                joao.silva@email.com {/* E-mail do usuário */}
+                {user.email}
               </Typography>
               <Button
                 variant="outlined"
@@ -103,7 +109,7 @@ const UserProfile = () => {
             <React.Fragment key={index}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt={item.title} src={item.avatar} />
+                  <Avatar alt={item.title} src={item.avatar || 'https://via.placeholder.com/40'} />
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.title}
@@ -111,26 +117,6 @@ const UserProfile = () => {
                 />
               </ListItem>
               {index < notifications.length - 1 && <Divider variant="inset" component="li" />}
-            </React.Fragment>
-          ))}
-        </List>
-      </Card>
-
-      {/* Links do Perfil */}
-      <Typography variant="h6" fontWeight="600" gutterBottom>
-        Configurações do Perfil
-      </Typography>
-      <Card sx={{ mb: 4 }}>
-        <List>
-          {profileLinks.map((item, index) => (
-            <React.Fragment key={index}>
-              <ListItem button component="a" href={item.href}>
-                <ListItemText
-                  primary={item.title}
-                  secondary={item.subtitle}
-                />
-              </ListItem>
-              {index < profileLinks.length - 1 && <Divider variant="inset" component="li" />}
             </React.Fragment>
           ))}
         </List>
