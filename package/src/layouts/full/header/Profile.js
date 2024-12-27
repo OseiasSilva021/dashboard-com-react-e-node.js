@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+
 import {
   Avatar,
   Box,
@@ -11,14 +11,44 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons-react';
-
-import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);  // Estado para armazenar a imagem de perfil
   const navigate = useNavigate();
+
+  // Função para buscar os dados do perfil
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/users/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Adiciona o token de autenticação
+          },
+        });
+        if (!response.ok) throw new Error('Erro ao buscar os dados do usuário');
+        const data = await response.json();
+        setProfileImage(data.profileImage); // Assume-se que o backend retorna a URL da imagem
+      } catch (error) {
+        console.error('Erro ao buscar imagem de perfil:', error);
+      }
+    };
+
+    fetchProfileImage();
+  }, []);  // Apenas carrega uma vez quando o componente for montado
+
+  // Função de logout
+  const handleLogout = () => {
+    // Remover o token do localStorage
+    localStorage.removeItem('token');
+    
+    // (Opcional) Requisição para o backend invalidar a sessão, se necessário:
+    // fetch('http://localhost:3000/api/logout', { method: 'POST' });
+
+    // Redirecionar para a página de login
+    navigate('/auth/login');
+  };
 
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -29,7 +59,7 @@ const Profile = () => {
   };
 
   const handleProfileClick = () => {
-    navigate('/user-profile'); // Redireciona diretamente para a página
+    navigate('/user-profile'); // Redireciona diretamente para a página de perfil
     handleClose2(); // Fecha o menu
   };
 
@@ -49,7 +79,7 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={ProfileImg}
+          src={"http://localhost:3000/" + profileImage}  // Usa a imagem de perfil ou uma imagem padrão
           alt="User Profile"
           sx={{
             width: 35,
@@ -94,7 +124,8 @@ const Profile = () => {
           <ListItemText>My Tasks</ListItemText>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button to="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
+          {/* Alterado para chamar a função de logout */}
+          <Button onClick={handleLogout} variant="outlined" color="primary" fullWidth>
             Logout
           </Button>
         </Box>

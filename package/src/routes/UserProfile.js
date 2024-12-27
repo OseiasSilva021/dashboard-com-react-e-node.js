@@ -67,7 +67,7 @@ const UserProfile = () => {
         body: formData,
        
       });
-      console.log(user.profileImage)
+     
       if (response.ok) {
         const updatedUser = await response.json();
         setUser(updatedUser); // Atualiza o usuário com a nova imagem
