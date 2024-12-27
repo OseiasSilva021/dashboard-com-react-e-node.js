@@ -181,7 +181,7 @@ router.get('/products', (req, res) => {
 });
 
 // Rota de registro de usuário com validação de dados
-router.post('/users', validateUser, createUser);
+router.post('/register', validateUser, createUser);
 
 // Rota de login de usuário
 router.post('/login', loginRateLimiter, loginUser); 

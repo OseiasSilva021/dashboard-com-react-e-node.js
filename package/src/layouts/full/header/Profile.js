@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
   Avatar,
@@ -17,11 +18,19 @@ import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const navigate = useNavigate();
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/user-profile'); // Redireciona diretamente para a página
+    handleClose2(); // Fecha o menu
   };
 
   return (
@@ -41,7 +50,7 @@ const Profile = () => {
       >
         <Avatar
           src={ProfileImg}
-          alt={ProfileImg}
+          alt="User Profile"
           sx={{
             width: 35,
             height: 35,
@@ -65,12 +74,13 @@ const Profile = () => {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={handleProfileClick}>
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
           <ListItemText>My Profile</ListItemText>
         </MenuItem>
+
         <MenuItem>
           <ListItemIcon>
             <IconMail width={20} />

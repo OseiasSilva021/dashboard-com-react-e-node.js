@@ -1,17 +1,19 @@
-import  { lazy } from 'react';
+import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-
+const UserProfile = Loadable(lazy(() => import('./UserProfile')));
+const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 
+/* ****Router**** */
 const Router = [
   {
     path: '/',
@@ -19,6 +21,7 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
+      { path: '/user-profile', exact: true, element: <UserProfile /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
