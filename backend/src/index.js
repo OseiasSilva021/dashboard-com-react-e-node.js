@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const userRoutes = require('./routes/userRoutes');
-const postRoutes = require('./routes/postRoutes'); // Importa as rotas de posts
+const postRoutes = require('./routes/postRoutes');
+const taskRoutes = require('./routes/taskRoutes')
 const connectDB = require('./config/db');
 require('dotenv').config();
 
@@ -24,8 +25,9 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads/')));
 
 // Rotas
-app.use(userRoutes);
-app.use(postRoutes); // Adiciona as rotas de posts
+app.use(userRoutes); // Adiciona as rotas de usuários
+app.use(taskRoutes); // Adiciona as rotas de posts
+app.use(postRoutes); // Adiciona as rotas de tasks
 
 // Iniciar servidor
 app.listen(3000, () => {

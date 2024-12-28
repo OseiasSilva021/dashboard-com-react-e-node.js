@@ -11,7 +11,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import { IconListCheck, IconMail, IconUser } from '@tabler/icons-react';
+import { IconListCheck, IconUser } from '@tabler/icons-react';
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -112,10 +112,8 @@ const Profile = () => {
         </MenuItem>
 
         <MenuItem>
-          <ListItemIcon>
-            <IconMail width={20} />
-          </ListItemIcon>
-          <ListItemText>My Account</ListItemText>
+          
+         
         </MenuItem>
         <MenuItem>
           <ListItemIcon>

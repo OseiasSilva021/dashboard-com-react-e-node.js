@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+const Task = require('../models/Tasks');
 const bcrypt = require('bcrypt')
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');

@@ -10,10 +10,11 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Adiciona as informações do usuário no req
+    console.log('Token Decoded:', decoded); // Log para depuração
+    req.user = decoded; // Adiciona as informações do usuário ao req
     next(); // Continua para a próxima função (rota)
   } catch (err) {
-    return res.status(403).json({ message: 'Token inválido ou expirado.' });
+    return res.status(403).json({ message: 'Token inválido ou expirado.', error: err.message });
   }
 };
 
