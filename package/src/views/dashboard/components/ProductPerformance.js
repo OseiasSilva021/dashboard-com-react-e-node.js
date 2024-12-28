@@ -48,16 +48,16 @@ const ProductPerformance = () => {
                                 <Typography variant="subtitle2" fontWeight={600}>Id</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>Assigned</Typography>
+                                <Typography variant="subtitle2" fontWeight={600}>Assinado</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>Name</Typography>
+                                <Typography variant="subtitle2" fontWeight={600}>Nome</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>Priority</Typography>
+                                <Typography variant="subtitle2" fontWeight={600}>Prioridade</Typography>
                             </TableCell>
                             <TableCell align="right">
-                                <Typography variant="subtitle2" fontWeight={600}>Budget</Typography>
+                                <Typography variant="subtitle2" fontWeight={600}>Orçamento</Typography>
                             </TableCell>
                         </TableRow>
                     </TableHead>

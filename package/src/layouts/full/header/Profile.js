@@ -111,10 +111,7 @@ const Profile = () => {
           <ListItemText>My Profile</ListItemText>
         </MenuItem>
 
-        <MenuItem>
-          
-         
-        </MenuItem>
+       
         <MenuItem>
           <ListItemIcon>
             <IconListCheck width={20} />

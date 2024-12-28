@@ -31,7 +31,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Register',
+    title: 'Registro',
     icon: IconUserPlus,
     href: '/auth/register',
   },
