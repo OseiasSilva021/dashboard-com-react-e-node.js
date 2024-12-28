@@ -1,4 +1,5 @@
-
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
@@ -10,8 +11,17 @@ import ProductPerformance from './components/ProductPerformance';
 import Blog from './components/Blog';
 import MonthlyEarnings from './components/MonthlyEarnings';
 
-
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  // Verificação de autenticação
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Obtém o token do localStorage
+    if (!token) {
+      navigate('/auth/login'); // Redireciona para a página de login se não estiver logado
+    }
+  }, [navigate]);
+
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
