@@ -24,7 +24,7 @@ const Tasks = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [editTask, setEditTask] = useState(null);
 
-  const API_URL = 'http://localhost:3000/api/tasks';
+  const API_URL = 'http://localhost:3000/tasks';
 
   useEffect(() => {
     const fetchTasks = async () => {
