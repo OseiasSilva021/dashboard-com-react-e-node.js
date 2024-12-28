@@ -29,8 +29,6 @@ const Tasks = () => {
   const API_URL = 'http://localhost:3000/tasks';
 
   useEffect(() => {
-
-   
     const fetchTasks = async () => {
       try {
         const response = await fetch(API_URL, {
@@ -54,9 +52,7 @@ const Tasks = () => {
     if (!token) {
       navigate('/auth/login'); // Redireciona para a página de login se não estiver logado
     }
-   
-
-  },  [navigate]);
+  }, [navigate]);
 
   const handleAddTask = async () => {
     if (!newTask.trim()) return;
@@ -140,13 +136,18 @@ const Tasks = () => {
     return <Typography variant="h6">Carregando tarefas...</Typography>;
   }
 
+  const completedTasksCount = tasks.filter((task) => task.completed).length;
+
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h4" fontWeight="700" gutterBottom>
         Minhas Tarefas
       </Typography>
-      <Typography variant="subtitle1" color="textSecondary" mb={4}>
+      <Typography variant="subtitle1" color="textSecondary" mb={2}>
         Gerencie suas tarefas diárias.
+      </Typography>
+      <Typography variant="subtitle1" color="primary" mb={4}>
+        {`Tarefas concluídas: ${completedTasksCount} de ${tasks.length}`}
       </Typography>
 
       <Card sx={{ mb: 4, padding: 2 }}>
