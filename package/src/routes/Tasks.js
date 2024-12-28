@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -18,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 const Tasks = () => {
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [loading, setLoading] = useState(true);
@@ -27,6 +29,8 @@ const Tasks = () => {
   const API_URL = 'http://localhost:3000/tasks';
 
   useEffect(() => {
+
+   
     const fetchTasks = async () => {
       try {
         const response = await fetch(API_URL, {
@@ -45,7 +49,14 @@ const Tasks = () => {
     };
 
     fetchTasks();
-  }, []);
+
+    const token = localStorage.getItem('token'); // Obtém o token do localStorage
+    if (!token) {
+      navigate('/auth/login'); // Redireciona para a página de login se não estiver logado
+    }
+   
+
+  },  [navigate]);
 
   const handleAddTask = async () => {
     if (!newTask.trim()) return;
