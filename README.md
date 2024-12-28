@@ -1,6 +1,7 @@
 # 🚀 Dashboard com React, Node.js e API 💻📊
 
 Este é um projeto de **Dashboard** interativo desenvolvido com **React** no frontend, **Node.js** no backend, e **API customizada** para gerenciar e fornecer dados. Ele permite visualizar gráficos dinâmicos, como o **Monthly Earnings** e **Yearly Breakup**, e interagir com os dados em tempo real. 🎉
+
 ---
 
 # Clique para ver o Vídeo de Demonstração ⬇️
