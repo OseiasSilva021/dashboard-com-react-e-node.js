@@ -1,13 +1,14 @@
-
 # 🚀 Dashboard com React, Node.js e API 💻📊
 
-Este é um projeto de **Dashboard** interativo desenvolvido com **React** no frontend, **Node.js** no backend, e **API** para gerenciar e fornecer dados. Ele permite visualizar gráficos dinâmicos, como o **Monthly Earnings** e **Yearly Breakup**, e interagir com os dados em tempo real. 🎉
+Este é um projeto de **Dashboard** interativo desenvolvido com **React** no frontend, **Node.js** no backend, e **API customizada** para gerenciar e fornecer dados. Ele permite visualizar gráficos dinâmicos, como o **Monthly Earnings** e **Yearly Breakup**, e interagir com os dados em tempo real. 🎉
 
 ## 🌟 Funcionalidades
 
 - **Gráficos Dinâmicos** 📈: Visualize os dados de vendas e ganhos mensais e anuais.
 - **Dashboard Responsivo** 📱💻: Totalmente responsivo para visualização em dispositivos móveis e desktops.
 - **Interação com API** 🌐: A comunicação entre o frontend (React) e o backend (Node.js) é feita via uma API REST.
+- **Página de Tarefas** ✅: Gerencie tarefas com adição, edição, exclusão e marcação como concluída.
+- **Autenticação de Usuários** 🔐: Apenas usuários autenticados podem acessar páginas protegidas como o Dashboard e Tasks.
 - **Interface Clean e Moderna** ✨: Utiliza o **Material-UI** para uma interface de usuário simples e elegante.
 
 ## 🔧 Tecnologias Usadas
@@ -24,7 +25,7 @@ Este é um projeto de **Dashboard** interativo desenvolvido com **React** no fro
 ### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/OseiasSilva021/dashboard-com-react-e-node.js.git
 ```
 
 ### 2. Configurar o Backend (Node.js)
@@ -69,23 +70,23 @@ npm install
 npm start
 ```
 
-O aplicativo React será iniciado em `http://localhost:3001 ou http://localhost:5173 `.
+O aplicativo React será iniciado em `http://localhost:3001` ou `http://localhost:5173`.
 
 ### 4. Acesse o Dashboard
 
-Agora, acesse o dashboard no seu navegador em `http://localhost:3001  ou http://localhost:5173` e aproveite a visualização dos dados! 🚀
+Agora, acesse o dashboard no seu navegador em `http://localhost:3001` ou `http://localhost:5173` e aproveite a visualização dos dados! 🚀
 
 ## 🔄 Como Funciona
 
 ### 🖥️ Frontend (React)
 
-O **React** é usado para criar uma interface interativa com gráficos e informações dinâmicas. Utilizando **ApexCharts** para gerar gráficos e **Material-UI** para componentes de interface, ele faz requisições à **API RESTful** construída com **Node.js** para buscar os dados.
+O **React** é usado para criar uma interface interativa com gráficos, tarefas e informações dinâmicas. Utilizando **ApexCharts** para gerar gráficos e **Material-UI** para componentes de interface, ele faz requisições à **API RESTful** construída com **Node.js** para buscar os dados.
 
 ### 🌐 Backend (Node.js)
 
-O backend é desenvolvido em **Node.js** com **Express** para gerenciar as rotas da API. As informações como **Monthly Earnings** e **Yearly Breakup** são fornecidas pela API e consumidas pelo frontend para atualização em tempo real.
+O backend é desenvolvido em **Node.js** com **Express** para gerenciar as rotas da API. As informações como **Monthly Earnings**, **Yearly Breakup** e tarefas são fornecidas pela API e consumidas pelo frontend para atualização em tempo real.
 
-## 📊 Exemplos de Gráficos
+## 📊 Exemplos de Funcionalidades
 
 ### Yearly Breakup
 
@@ -94,6 +95,13 @@ Gráfico de divisão de ganhos anuais.
 ### Monthly Earnings
 
 Gráfico de ganhos mensais.
+
+### Gerenciamento de Tarefas
+
+- **Adicionar Tarefas**: Insira uma nova tarefa na lista.
+- **Editar Tarefas**: Altere o título de uma tarefa existente.
+- **Concluir Tarefas**: Marque uma tarefa como concluída.
+- **Excluir Tarefas**: Remova tarefas da lista.
 
 ## 🤝 Contribuição
 
@@ -106,4 +114,3 @@ Gráfico de ganhos mensais.
 ## 📜 Licença
 
 Este projeto está sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
