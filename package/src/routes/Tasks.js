@@ -10,21 +10,28 @@ import {
   Button,
   TextField,
   Checkbox,
+  IconButton,
   Stack,
+  CircularProgress,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+
+  const API_URL = 'http://localhost:3000/api/tasks';
 
   useEffect(() => {
-    // Função para buscar as tarefas da API
     const fetchTasks = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/tasks', {
+        const response = await fetch(API_URL, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Inclui o token de autenticação
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
         if (!response.ok) throw new Error('Erro ao buscar as tarefas');
@@ -41,9 +48,10 @@ const Tasks = () => {
   }, []);
 
   const handleAddTask = async () => {
-    if (!newTask.trim()) return; // Evita adicionar tarefas vazias
+    if (!newTask.trim()) return;
+    setIsUpdating(true);
     try {
-      const response = await fetch('http://localhost:3000/api/tasks', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,16 +61,18 @@ const Tasks = () => {
       });
       if (!response.ok) throw new Error('Erro ao adicionar a tarefa');
       const createdTask = await response.json();
-      setTasks([...tasks, createdTask]); // Adiciona a nova tarefa à lista
-      setNewTask(''); // Limpa o campo de texto
+      setTasks([...tasks, createdTask]);
+      setNewTask('');
     } catch (error) {
       console.error('Erro ao adicionar tarefa:', error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   const handleToggleTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
+      const response = await fetch(`${API_URL}/${taskId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -70,10 +80,48 @@ const Tasks = () => {
         },
         body: JSON.stringify({ completed: true }),
       });
-      if (!response.ok) throw new Error('Erro ao marcar a tarefa como concluída');
-      setTasks(tasks.map(task => (task.id === taskId ? { ...task, completed: true } : task)));
+      if (!response.ok) throw new Error('Erro ao concluir a tarefa');
+      setTasks(tasks.map((task) => (task._id === taskId ? { ...task, completed: true } : task)));
     } catch (error) {
       console.error('Erro ao concluir a tarefa:', error);
+    }
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await fetch(`${API_URL}/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!response.ok) throw new Error('Erro ao excluir a tarefa');
+      setTasks(tasks.filter((task) => task._id !== taskId));
+    } catch (error) {
+      console.error('Erro ao excluir tarefa:', error);
+    }
+  };
+
+  const handleEditTask = async () => {
+    if (!editTask.title.trim()) return;
+    setIsUpdating(true);
+    try {
+      const response = await fetch(`${API_URL}/${editTask._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ title: editTask.title }),
+      });
+      if (!response.ok) throw new Error('Erro ao editar a tarefa');
+      const updatedTask = await response.json();
+      setTasks(tasks.map((task) => (task._id === updatedTask._id ? updatedTask : task)));
+      setEditTask(null);
+    } catch (error) {
+      console.error('Erro ao editar tarefa:', error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -83,7 +131,6 @@ const Tasks = () => {
 
   return (
     <Box sx={{ padding: 4 }}>
-      {/* Título da Página */}
       <Typography variant="h4" fontWeight="700" gutterBottom>
         Minhas Tarefas
       </Typography>
@@ -91,7 +138,6 @@ const Tasks = () => {
         Gerencie suas tarefas diárias.
       </Typography>
 
-      {/* Adicionar Nova Tarefa */}
       <Card sx={{ mb: 4, padding: 2 }}>
         <Typography variant="h6" fontWeight="600" gutterBottom>
           Adicionar Nova Tarefa
@@ -103,33 +149,62 @@ const Tasks = () => {
             placeholder="Digite a nova tarefa"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            disabled={isUpdating}
           />
-          <Button variant="contained" color="primary" onClick={handleAddTask}>
-            Adicionar
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddTask}
+            disabled={isUpdating}
+          >
+            {isUpdating ? <CircularProgress size={24} color="inherit" /> : 'Adicionar'}
           </Button>
         </Stack>
       </Card>
 
-      {/* Lista de Tarefas */}
       <Typography variant="h6" fontWeight="600" gutterBottom>
         Lista de Tarefas
       </Typography>
       <Card>
         <List>
           {tasks.map((task, index) => (
-            <React.Fragment key={task.id}>
+            <React.Fragment key={task._id}>
               <ListItem
                 secondaryAction={
-                  <Checkbox
-                    edge="end"
-                    checked={task.completed}
-                    onChange={() => handleToggleTask(task.id)}
-                    disabled={task.completed} // Desabilita o checkbox se a tarefa já estiver concluída
-                  />
+                  <>
+                    <Checkbox
+                      edge="end"
+                      checked={task.completed}
+                      onChange={() => handleToggleTask(task._id)}
+                      disabled={task.completed}
+                    />
+                    <IconButton
+                      edge="end"
+                      onClick={() => setEditTask(task)}
+                      disabled={task.completed}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton edge="end" onClick={() => handleDeleteTask(task._id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
                 }
               >
                 <ListItemText
-                  primary={task.title}
+                  primary={
+                    editTask?._id === task._id ? (
+                      <TextField
+                        value={editTask.title}
+                        onChange={(e) =>
+                          setEditTask({ ...editTask, title: e.target.value })
+                        }
+                        onBlur={handleEditTask}
+                      />
+                    ) : (
+                      task.title
+                    )
+                  }
                   secondary={task.completed ? 'Concluída' : 'Pendente'}
                 />
               </ListItem>

@@ -62,6 +62,10 @@ const Profile = () => {
     navigate('/user-profile'); // Redireciona diretamente para a página de perfil
     handleClose2(); // Fecha o menu
   };
+  const handleProfileTasks = () => {
+    navigate('/task-profile'); // Redireciona diretamente para a página de perfil
+    handleClose2(); // Fecha o menu
+  };
 
   return (
     <Box>
@@ -112,7 +116,7 @@ const Profile = () => {
         </MenuItem>
 
        
-        <MenuItem>
+        <MenuItem onClick={handleProfileTasks}>
           <ListItemIcon>
             <IconListCheck width={20} />
           </ListItemIcon>
