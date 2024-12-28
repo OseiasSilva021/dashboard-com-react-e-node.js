@@ -102,7 +102,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             htmlFor="password"
             mb="5px"
           >
-            Password
+            Senha
           </Typography>
           <CustomTextField
             id="password"
@@ -117,20 +117,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox defaultChecked />}
-              label="Remember this Device"
+              label="Lembrar deste dispositivo"
             />
           </FormGroup>
-          <Typography
-            component="a"
-            href="/forgot-password"
-            fontWeight="500"
-            sx={{
-              textDecoration: 'none',
-              color: 'primary.main',
-            }}
-          >
-            Forgot Password?
-          </Typography>
+        
         </Stack>
         <Box>
           <Button
@@ -140,7 +130,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             fullWidth
             type="submit"
           >
-            Sign In
+           Entrar 
           </Button>
         </Box>
       </Stack>

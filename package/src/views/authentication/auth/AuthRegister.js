@@ -82,7 +82,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
       <Box component="form" onSubmit={handleSubmit}>
         <Stack mb={3}>
           <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="name" mb="5px">
-            Name
+            Nome
           </Typography>
           <CustomTextField
             id="name"
@@ -93,7 +93,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
           />
 
           <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email" mb="5px" mt="25px">
-            Email Address
+            Endereço de Email
           </Typography>
           <CustomTextField
             id="email"
@@ -104,7 +104,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
           />
 
           <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password" mb="5px" mt="25px">
-            Password
+            Senha
           </Typography>
           <CustomTextField
             id="password"
@@ -116,7 +116,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
           />
         </Stack>
         <Button color="primary" variant="contained" size="large" fullWidth type="submit">
-          Sign Up
+          Registrar
         </Button>
       </Box>
 

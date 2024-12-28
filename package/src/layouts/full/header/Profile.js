@@ -112,7 +112,7 @@ const Profile = () => {
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
-          <ListItemText>My Profile</ListItemText>
+          <ListItemText>Meu Perfil</ListItemText>
         </MenuItem>
 
        
@@ -120,7 +120,7 @@ const Profile = () => {
           <ListItemIcon>
             <IconListCheck width={20} />
           </ListItemIcon>
-          <ListItemText>My Tasks</ListItemText>
+          <ListItemText>Minhas Tasks</ListItemText>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
           {/* Alterado para chamar a função de logout */}
