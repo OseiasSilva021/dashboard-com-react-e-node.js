@@ -55,6 +55,32 @@ router.patch('/tasks/:id', async (req, res) => {
   }
 });
 
+// Rota PUT: Editar uma tarefa (ex.: título ou estado de conclusão)
+router.put('/tasks/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, completed } = req.body;
+
+  if (!title && completed === undefined) {
+    return res.status(400).json({ message: 'É necessário fornecer ao menos um campo para atualização.' });
+  }
+
+  try {
+    const task = await Task.findOne({ _id: id, userId: req.user.id }); // Certifica-se de que a tarefa pertence ao usuário
+    if (!task) {
+      return res.status(404).json({ message: 'Tarefa não encontrada' });
+    }
+
+    // Atualiza apenas os campos fornecidos
+    if (title) task.title = title;
+    if (completed !== undefined) task.completed = completed;
+
+    await task.save();
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao editar a tarefa', error });
+  }
+});
+
 // Rota DELETE: Excluir uma tarefa
 router.delete('/tasks/:id', async (req, res) => {
   const { id } = req.params;
