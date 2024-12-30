@@ -73,7 +73,7 @@ npm install
 - Inicie o servidor:
 
 ```bash
-npm start
+npm run dev
 ```
 
 O aplicativo React será iniciado em `http://localhost:3001` ou `http://localhost:5173`.
